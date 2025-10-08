@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ateneo de Davao RentHub</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8fafc;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #2563eb;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      background: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      border-bottom: 2px solid #2563eb;
+      padding-bottom: 5px;
+    }
+
+    form {
+      display: grid;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    input, textarea, button {
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1d4ed8;
+    }
+
+    .items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .item-card {
+      background: #f1f5f9;
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .item-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+    }
+
+    .no-items {
+      text-align: center;
+      color: #6b7280;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Campus RentHub</h1>
+    <p>Rent and share student items easily!</p>
+  </header>
+
+  <div class="container">
+    <h2>Upload Your Item</h2>
+    <form id="uploadForm">
+      <input type="text" id="itemName" placeholder="Item Name (e.g. Umbrella, Book)" required>
+      <textarea id="itemDescription" placeholder="Item Description" required></textarea>
+      <input type="file" id="itemImage" accept="image/*" required>
+      <button type="submit">Add Item</button>
+    </form>
+
+    <h2>Available Items for Rent</h2>
+    <div id="itemsList" class="items-grid"></div>
+    <p class="no-items" id="noItems">No items yet. Be the first to upload!</p>
+  </div>
+
+  <script>
+    const form = document.getElementById('uploadForm');
+    const itemsList = document.getElementById('itemsList');
+    const noItemsText = document.getElementById('noItems');
+
+    // Load items from localStorage
+    let items = JSON.parse(localStorage.getItem('rentItems')) || [];
+
+    function displayItems() {
+      itemsList.innerHTML = '';
+      if (items.length === 0) {
+        noItemsText.style.display = 'block';
+      } else {
+        noItemsText.style.display = 'none';
+        items.forEach((item, index) => {
+          const div = document.createElement('div');
+          div.className = 'item-card';
+          div.innerHTML = `
+            <img src="${item.image}" alt="${item.name}">
+            <h3>${item.name}</h3>
+            <p>${item.description}</p>
+            <button onclick="rentItem(${index})">Rent</button>
+          `;
+          itemsList.appendChild(div);
+        });
+      }
+    }
+
+    function rentItem(index) {
+      alert(`You have requested to rent "${items[index].name}". The owner will be contacted soon!`);
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('itemName').value;
+      const description = document.getElementById('itemDescription').value;
+      const imageFile = document.getElementById('itemImage').files[0];
+
+      const reader = new FileReader();
+      reader.onloadend = function () {
+        const image = reader.result;
+        const newItem = { name, description, image };
+        items.push(newItem);
+        localStorage.setItem('rentItems', JSON.stringify(items));
+        form.reset();
+        displayItems();
+      };
+      reader.readAsDataURL(imageFile);
+    });
+
+    displayItems();
+  </script>
+
+</body>
+</html>
