@@ -7,29 +7,28 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f8fafc;
+      background: url('ateneo-logo.png') no-repeat center center fixed;
+      background-size: 300px;
+      background-color: rgba(37, 99, 235, 0.1);
       margin: 0;
       padding: 0;
     }
 
     header {
-      background-color: #2563eb;
+      background-color: rgba(37, 99, 235, 0.95);
       color: white;
       padding: 1rem 2rem;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    /* Logo + Title container */
-    .logo-container {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      justify-content: center; /* Center everything horizontally */
+      position: relative;
+      backdrop-filter: blur(6px);
     }
 
     .logo {
+      position: absolute;
+      left: 20px;
+      top: 10px;
       width: 55px;
       height: 55px;
       border-radius: 50%;
@@ -39,24 +38,27 @@
 
     header h1 {
       margin: 0;
-      font-size: 1.6rem;
+      font-size: 1.8rem;
     }
 
     header p {
-      width: 100%;
-      margin-top: 0.5rem;
+      margin: 0;
       font-size: 1rem;
-      text-align: left;
       color: #e0e7ff;
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
     }
 
     .container {
       max-width: 900px;
       margin: 2rem auto;
-      background: white;
+      background: rgba(255, 255, 255, 0.9);
       padding: 1.5rem;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      backdrop-filter: blur(8px);
     }
 
     h2 {
@@ -81,6 +83,7 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      transition: 0.3s;
     }
 
     button:hover {
@@ -118,10 +121,8 @@
 <body>
 
   <header>
-    <div class="logo-container">
-      <img src="ateneo-logo.png" alt="Campus RentHub Logo" class="logo">
-      <h1>Campus RentHub</h1>
-    </div>
+    <img src="ateneo-logo.png" alt="Ateneo Logo" class="logo">
+    <h1>Campus RentHub</h1>
     <p>Rent and share student items easily!</p>
   </header>
 
@@ -144,7 +145,6 @@
     const itemsList = document.getElementById('itemsList');
     const noItemsText = document.getElementById('noItems');
 
-    // Load items from localStorage
     let items = JSON.parse(localStorage.getItem('rentItems')) || [];
 
     function displayItems() {
