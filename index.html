@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ateneo de Davao RentHub</title>
+  <title>Campus RentHub</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -16,7 +16,22 @@
       background-color: #2563eb;
       color: white;
       padding: 1rem;
-      text-align: center;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 15px;
+      padding-left: 1rem;
+    }
+
+    .logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      background-color: white;
     }
 
     .container {
@@ -87,8 +102,16 @@
 <body>
 
   <header>
-    <h1>Campus RentHub</h1>
-    <p>Rent and share student items easily!</p>
+    <div class="header-content">
+      <!-- Logo: make sure you upload a file named logo.png in the same folder -->
+      <a href="index.html">
+        <img src="logo.png" alt="Campus RentHub Logo" class="logo">
+      </a>
+      <div>
+        <h1>Campus RentHub</h1>
+        <p>Rent and share student items easily!</p>
+      </div>
+    </div>
   </header>
 
   <div class="container">
@@ -134,7 +157,7 @@
     }
 
     function rentItem(index) {
-      alert(`You have requested to rent "${items[index].name}". The owner will be contacted soon!`);
+      alert(\`You have requested to rent "\${items[index].name}". The owner will be contacted soon!\`);
     }
 
     form.addEventListener('submit', (e) => {
